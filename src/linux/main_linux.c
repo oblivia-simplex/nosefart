@@ -225,8 +225,8 @@ static void open_hardware(const char *device)
    bad? --Matthew Strait */
    if( !S_ISCHR(status.st_mode) && strcmp("/dev/dsp", device))
    {
-      printf("%s is not a character device.\n", device);
-      exit(1);
+      printf("%s is not a character device, but who cares?.\n", device);
+      //exit(1);
    }
 
    /* Drop root permissions */
@@ -239,7 +239,6 @@ static void init_hardware(void)
    int stereo = 0;
    int param, retval, logDataSize;
    int format;
-   
    switch(bits)
    {
    case 8:
@@ -270,7 +269,7 @@ static void init_hardware(void)
    if(retval == -1 || param != stereo)
    {
       printf("Unable to set audio channels.\n");
-      exit(1);
+      //exit(1);
    }
    param = format;
    retval = ioctl(audiofd, SNDCTL_DSP_SETFMT, &param);
@@ -278,7 +277,7 @@ static void init_hardware(void)
    {
       printf("Unable to set audio format.\n");
       printf("Wanted %i, got %i\n", format, param);
-      exit(1);
+      //exit(1);
    }
    param = freq;
    retval = ioctl(audiofd, SNDCTL_DSP_SPEED, &param);
@@ -286,13 +285,13 @@ static void init_hardware(void)
    {
       printf("Unable to set audio frequency.\n");
       printf("Wanted %i, got %i\n", freq, param);
-      exit(1);
+      //exit(1);
    }
    retval = ioctl(audiofd, SNDCTL_DSP_GETBLKSIZE, &param);
    if(-1 == retval)
    {
       printf("Unable to get buffer size\n");
-      exit(1);
+      //exit(1);
    }
    /* set up our data buffer */
    bufferSize = param;
